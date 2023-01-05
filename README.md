@@ -1,6 +1,6 @@
 # One week ahead...
 
-This repository contains the data and code required to reproduce the results and visualizations from the forthcoming paper "One week ahead prediction of harmful algal blooms in Iowa lakes." 
+This repository contains the data and code required to reproduce the results and visualizations from the forthcoming paper "One week ahead prediction of harmful algal blooms in Iowa lakes."
 
 ## Repeating the analysis
 
@@ -13,7 +13,7 @@ mamba env create -f environment.yml
 Then, activate the environment:
 
 ```
-conda activate lamps_incubation
+conda activate hab_prediction
 ```
 
 You can then run the pipeline with:
