@@ -28,4 +28,6 @@ This will restore the R environment, regenerate all the figures, and render the 
 
 ## DAG of jobs
 
-![](figures/snakemake_dag.png)
+<p align="center">
+  <img src="figures/snakemake_dag.png" />
+</p>
