@@ -41,3 +41,6 @@ vignettes/*.pdf
 # Snakemake files
 .snakemake
 logs/
+
+# data files
+data/weather/US*gz

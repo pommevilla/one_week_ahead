@@ -1,0 +1,39 @@
+Site	Station
+Backbone Beach	USC00138009
+Beed's Lake Beach	USC00133584
+Big Creek Beach	US1IAPK0021
+Black Hawk Beach	USC00137312
+Brushy Creek Beach	USC00138808
+Clear Lake Beach	USW00014940
+Crandall's Beach	USC00137859
+Denison Beach	USC00137312
+Emerson Bay Beach	USC00135493
+George Wyth Beach	USW00094910
+Green Valley Beach	US1IAUN0001
+Gull Point Beach	USC00135493
+Honey Creek Resort Beach	USC00136910
+Lacey-Keosauqua Beach	USC00134389
+Lake Ahquabi Beach	US1IAWR0007
+Lake Anita Beach	US1IACS0002
+Lake Darling Beach	USC00138688
+Lake Keomah Beach	USC00136327
+Lake Macbride Beach	US1IAJH0001
+Lake Manawa Beach	US1IAPT0013
+Lake of Three Fires Beach	USC00130576
+Lake Wapello Beach	US1IADV0002
+Lewis and Clark (Blue Lake) Beach	US1IAMN0002
+Lower Pine Lake Beach	US1IAHD0005
+Marble Beach	USC00135493
+McIntosh Woods Beach	USW00014940
+Nine Eagles Beach	USW00094991
+North Twin Lake East Beach 	USC00137161
+North Twin Lake West Beach 	USC00137161
+Pleasant Creek	US1IALN0024
+Pike's Point Beach	USC00135493
+Prairie Rose Beach	US1IASH0003
+Red Haw Beach	USC00131394
+Rock Creek Beach	USC00133473
+Springbrook Beach	USC00133509
+Triboji Beach	USC00135493
+Union Grove	USC00133120
+Viking Lake Beach	USC00136940

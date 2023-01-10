@@ -25,3 +25,7 @@ snakemake -c 1
 _(You can also do `snakemake -c 2` or however many cores you'd like to use.)_
 
 This will restore the R environment, regenerate all the figures, and render the website.
+
+## DAG of jobs
+
+![](figures/snakemake_dag.png)
