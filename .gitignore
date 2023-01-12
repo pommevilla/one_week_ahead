@@ -48,3 +48,4 @@ logs/
 # data files
 data/weather/compressed/US*gz
 
+scratch
