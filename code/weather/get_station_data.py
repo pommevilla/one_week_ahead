@@ -1,4 +1,12 @@
 #!/usr/bin/env python
+# ---------------------------
+# Script name: get_station_data.py
+# Purpose of script: Downloads the daily weather data from
+# individual stations
+# Inputs:
+#   UNIQUE_STATIONS - passed on the command line from snakemake.params
+# Author: Paul Villanueva (github.com/pommevilla)
+# ---------------------------
 
 import requests
 import sys
@@ -10,6 +18,6 @@ DOWNLOAD_PATH = "data/weather/compressed/{}.csv.gz"
 for station in UNIQUE_STATIONS:
     remote_url = GHCND_URL.format(station)
     local_path = DOWNLOAD_PATH.format(station)
-    with open(local_path, 'wb') as fout:
+    with open(local_path, "wb") as fout:
         r = requests.get(remote_url)
         fout.write(r.content)
