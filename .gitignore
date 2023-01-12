@@ -42,5 +42,9 @@ vignettes/*.pdf
 .snakemake
 logs/
 
+# Snakemake status outputs
+.hab_prediction_env_restored
+
 # data files
 data/weather/compressed/US*gz
+

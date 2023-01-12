@@ -1,5 +1,7 @@
-# This snakemake file downloads raw weather data
-# and prepares it for downstream analysis
+# ---------------------------
+# Snakemake rules for gathering and preparing weather data
+# Author: Paul Villanueva (github.com/pommevilla)
+# ---------------------------
 
 rule download_weather_data:
     input:
@@ -33,8 +35,9 @@ rule concatenate_weather_data:
         {input.script} 2> {log.err} 1> {log.out}
         """
 
-rule pivot_and_impute_data:
+rule prepare_weather_data:
     input:
+        renv_restored = ".hab_prediction_env_restored",
         script = "code/weather/prepare_weather_data.R",
         all_stations_data = "data/weather/all_stations.csv"
     output:
