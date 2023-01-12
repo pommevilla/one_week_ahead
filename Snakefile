@@ -1,18 +1,12 @@
 include: "rules/common.smk"
-# unique_stations = set()
-
-# with open("data/stations_nearest_lakes.txt") as fin:
-#     next(fin)
-#     for line in fin:
-#         station = line.strip().split('\t')[1]
-#         unique_stations.add(station)
 
 rule targets:
     input:
         "figures/snakemake_dag.png",
         "data/dnr_combined.csv",
-        expand("data/weather/{station}.csv.gz", station=unique_stations),
-        ".cleaning_done"
+        COMPRESSED_STATIONS_FILES,
+        "data/weather/all_stations.csv",
+        "data/weather/all_stations_prepared.csv"
 
 rule generate_snakemake_dag:
     input:

@@ -1,10 +1,13 @@
+# This snakemake file downloads raw weather data
+# and prepares it for downstream analysis
+
 rule download_weather_data:
     input:
-        script = "code/weather/get_station_data.bash",
-        stations_nearest_lakes = "data/stations_nearest_lakes.txt"
+        script = "code/weather/get_station_data.py"
+    params:
+        stations = UNIQUE_STATIONS
     output:
-        expand("data/weather/{station}.csv.gz", station=unique_stations),
-        temp(touch(".weather_data_download_complete"))
+        COMPRESSED_STATIONS_FILES
     log:
         err = "logs/download_weather_data.err",
         out = "logs/download_weather_data.out"
@@ -13,19 +16,33 @@ rule download_weather_data:
     threads: 4
     shell:
         """
-        {input.script} {input.stations_nearest_lakes} 2> {log.err} 1> {log.out}
+        {input.script} {params.stations} 2> {log.err} 1> {log.out}
         """
 
-rule clean_weather_data:
+rule concatenate_weather_data:
     input:
-        ".weather_data_download_complete" 
+        script = "code/weather/concatenate_weather_files.bash",
+        compressed_files = COMPRESSED_STATIONS_FILES
     output:
-        temp(".cleaning_done")
+        "data/weather/all_stations.csv"
     log:
-        err = "logs/clean_weather_stations.err",
-        out = "logs/clean_weather_stations.out"
+        err = "logs/concatenate_weather_stations.err",
+        out = "logs/concatenate_weather_stations.out"
     shell:
         """
-        rm data/weather/US*.csv.gz.* .weather_data_download_complete
-        touch .cleaning_done
+        {input.script} 2> {log.err} 1> {log.out}
+        """
+
+rule pivot_and_impute_data:
+    input:
+        script = "code/weather/prepare_weather_data.R",
+        all_stations_data = "data/weather/all_stations.csv"
+    output:
+        "data/weather/all_stations_prepared.csv"
+    log:
+        err = "logs/prepare_weather_stations.err",
+        out = "logs/prepare_weather_stations.out"
+    shell:
+        """
+        {input.script} 2> {log.err} 1> {log.out}
         """

@@ -43,4 +43,4 @@ vignettes/*.pdf
 logs/
 
 # data files
-data/weather/US*gz
+data/weather/compressed/US*gz
