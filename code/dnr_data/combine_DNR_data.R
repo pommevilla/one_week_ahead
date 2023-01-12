@@ -5,17 +5,13 @@ library(janitor)
 library(readxl)
 library(here)
 library(lubridate)
-# library(maptools)
-library(sf)
+# library(sf)
 library(stringr)
-# library(raster)
-# library(zoo)
-# library(tidytext)
+
 
 iowa_crs <- 26976
 
-# DNR_2018 <- read_xlsx("../data/IowaDNR_2018_Data_Merged.xlsx", sheet = "Sheet2") %>%
-DNR_2018 <- read_xlsx(here("data", "IowaDNR_2018_Data_Merged.xlsx"), sheet = "Sheet2") %>%
+dnr_2018 <- read_xlsx(here("data/dnr_data", "IowaDNR_2018_Data_Merged.xlsx"), sheet = "Sheet2") %>%
   clean_names() %>%
   separate(sample_id, c("week", NA), "-") %>%
   rename(microcystin = 6, x16s = 16, mcy_a_m = 17, mcy_a_a = 18, mcy_a_p = 19) %>%
@@ -39,8 +35,7 @@ DNR_2018 <- read_xlsx(here("data", "IowaDNR_2018_Data_Merged.xlsx"), sheet = "Sh
 
 
 # Iowa DNR lake readings
-# DNR_2019 <- read_xlsx("../data/IowaDNR_2019_Data_Merged.xlsx", sheet = "combined") %>%
-DNR_2019 <- read_xlsx(here("data", "IowaDNR_2019_Data_Merged.xlsx"), sheet = "combined") %>%
+dnr_2019 <- read_xlsx(here("data/dnr_data", "IowaDNR_2019_Data_Merged.xlsx"), sheet = "combined") %>%
   separate(Label, c("week", NA), "-") %>%
   clean_names() %>%
   filter(environmental_location != "Bob White Beach") %>%
@@ -50,7 +45,6 @@ DNR_2019 <- read_xlsx(here("data", "IowaDNR_2019_Data_Merged.xlsx"), sheet = "co
     tn_tp = tn / tp,
     tn_tp_2 = tn / tkp_mg_p_l,
     mcya_16s = mcy_a_m / x16s,
-    # collected_date = ymd(collected_date),
     collected_date = lubridate::date(collected_date)
   ) %>%
   mutate(
@@ -63,8 +57,7 @@ DNR_2019 <- read_xlsx(here("data", "IowaDNR_2019_Data_Merged.xlsx"), sheet = "co
   ) %>%
   ungroup()
 
-# DNR_2020 <- read_xlsx("../data/IowaDNR_2020_Data_Merged.xlsx", sheet = "Sheet1") %>%
-DNR_2020 <- read_xlsx(here("data", "IowaDNR_2020_Data_Merged.xlsx"), sheet = "Sheet1") %>%
+dnr_2020 <- read_xlsx(here("data/dnr_data", "IowaDNR_2020_Data_Merged.xlsx"), sheet = "Sheet1") %>%
   separate(Label, c("week", NA), "-") %>%
   clean_names() %>%
   filter(environmental_location != "Bob White Beach") %>%
@@ -86,7 +79,7 @@ DNR_2020 <- read_xlsx(here("data", "IowaDNR_2020_Data_Merged.xlsx"), sheet = "Sh
   ungroup() %>%
   dplyr::select(-c(isu_number, new_id))
 
-DNR_2021 <- read_xlsx(here("data", "IowaDNR_2021_Data_Merged.xlsx")) %>%
+dnr_2021 <- read_xlsx(here("data/dnr_data", "IowaDNR_2021_Data_Merged.xlsx")) %>%
   clean_names() %>%
   select(-c(client_reference, ortho_p, dissolved_oxygen_mg_l)) %>%
   separate(label, c("week", NA), "_") %>%
@@ -110,10 +103,10 @@ DNR_2021 <- read_xlsx(here("data", "IowaDNR_2021_Data_Merged.xlsx")) %>%
   ungroup()
 
 common_columns <- intersect(
-  names(DNR_2019),
+  names(dnr_2019),
   intersect(
-    names(DNR_2020),
-    names(DNR_2018)
+    names(dnr_2020),
+    names(dnr_2018)
   )
 )
 
@@ -134,8 +127,7 @@ common_columns <- intersect(
 #   ))
 
 
-# For final report
-DNR_all <- bind_rows(DNR_2018, DNR_2019, DNR_2020, DNR_2021) %>%
+dnr_all <- bind_rows(dnr_2018, dnr_2019, dnr_2020, dnr_2021) %>%
   dplyr::select(all_of(common_columns), ortho_p_mg_p_l) %>%
   mutate(
     environmental_location = case_when(
@@ -145,14 +137,4 @@ DNR_all <- bind_rows(DNR_2018, DNR_2019, DNR_2020, DNR_2021) %>%
   ) %>%
   filter(!is.na(collected_date))
 
-write.csv(DNR_all, here("data", "dnr_combined.csv"), row.names = FALSE, quote = FALSE)
-
-# left_join(
-#   DNR_all, seven_dra,
-#   by = c("environmental_location" = "Location", "collected_date" = "Date")
-# ) %>%
-#   filter(is.na(avg_wind)) %>%
-#   view()
-
-# seven_dra %>%
-#   filter(str_detect(Location, "Beed"))
+write.csv(dnr_all, here("data/dnr_data", "dnr_combined.csv"), row.names = FALSE, quote = FALSE)
