@@ -26,8 +26,8 @@ Lower Pine Lake Beach	US1IAHD0005
 Marble Beach	USC00135493
 McIntosh Woods Beach	USW00014940
 Nine Eagles Beach	USW00094991
-North Twin Lake East Beach 	USC00137161
-North Twin Lake West Beach 	USC00137161
+North Twin Lake East Beach	USC00137161
+North Twin Lake West Beach	USC00137161
 Pleasant Creek	US1IALN0024
 Pike's Point Beach	USC00135493
 Prairie Rose Beach	US1IASH0003
@@ -35,5 +35,5 @@ Red Haw Beach	USC00131394
 Rock Creek Beach	USC00133473
 Springbrook Beach	USC00133509
 Triboji Beach	USC00135493
-Union Grove	USC00133120
+Union Grove Beach	USC00133120
 Viking Lake Beach	USC00136940
