@@ -1,2 +1,10 @@
 #!/usr/bin/env Rscript
+# ---------------------------
+# Script name: restore_renv.py
+# Purpose: Restores the r environment used in the project.
+# This is necessary because not all packages (such as janitor and tidyverse)
+# are available through Anaconda.
+# Author: Paul Villanueva (github.com/pommevilla)
+# ---------------------------
+
 renv::install()

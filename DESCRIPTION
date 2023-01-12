@@ -1,0 +1,6 @@
+Type: project
+Description: One Week Ahead Prediction of HABs in Iowa Lakes
+Depends:
+    janitor,
+    tidyverse
+    
