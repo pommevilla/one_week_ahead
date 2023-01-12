@@ -7,7 +7,8 @@ rule targets:
         COMPRESSED_STATIONS_FILES,
         "data/weather/all_stations.csv",
         "data/weather/all_stations_prepared.csv",
-        ".hab_prediction_env_restored"
+        ".hab_prediction_env_restored",
+        "data/data_prep/combined.csv"
 
 rule restore_renv:
     input:
@@ -42,4 +43,4 @@ rule generate_snakemake_dag:
 
 include: "rules/weather_data.smk"
 include: "rules/dnr_data.smk"
-
+include: "rules/data_prep.smk"

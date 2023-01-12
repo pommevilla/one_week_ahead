@@ -5,4 +5,8 @@
 # ---------------------------
 library(here)
 
-dnr_data <- read.csv(here("data", "dnr_combined.csv"))
+dnr_data <- read.csv(
+    here("data", "dnr_combined.csv"),
+    row.names = FALSE,
+    quote = FALSE
+)
