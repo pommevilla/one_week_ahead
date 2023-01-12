@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # ---------------------------
-# Script name: get_station_data.py
-# Purpose of script: Downloads the daily weather data from
-# individual stations
+# Downloads daily weather data from individual stations
 # Inputs:
 #   UNIQUE_STATIONS - passed on the command line from snakemake.params
 # Author: Paul Villanueva (github.com/pommevilla)
@@ -12,6 +10,8 @@ import requests
 import sys
 
 UNIQUE_STATIONS = sys.argv[1:]
+
+
 GHCND_URL = "https://www.ncei.noaa.gov/pub/data/ghcn/daily/by_station/{}.csv.gz"
 DOWNLOAD_PATH = "data/weather/compressed/{}.csv.gz"
 

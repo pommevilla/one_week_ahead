@@ -1,15 +1,15 @@
 #!/usr/bin/env Rscript
+# ---------------------------
+# Prepares and combines DNR data for all four sampling years
+# Author: Paul Villanueva (github.com/pommevilla)
+# ---------------------------
 
 library(tidyverse)
 library(janitor)
 library(readxl)
 library(here)
 library(lubridate)
-# library(sf)
 library(stringr)
-
-
-iowa_crs <- 26976
 
 dnr_2018 <- read_xlsx(here("data/dnr_data", "IowaDNR_2018_Data_Merged.xlsx"), sheet = "Sheet2") %>%
   clean_names() %>%
@@ -33,8 +33,6 @@ dnr_2018 <- read_xlsx(here("data/dnr_data", "IowaDNR_2018_Data_Merged.xlsx"), sh
   ) %>%
   ungroup()
 
-
-# Iowa DNR lake readings
 dnr_2019 <- read_xlsx(here("data/dnr_data", "IowaDNR_2019_Data_Merged.xlsx"), sheet = "combined") %>%
   separate(Label, c("week", NA), "-") %>%
   clean_names() %>%
@@ -109,9 +107,6 @@ common_columns <- intersect(
     names(dnr_2018)
   )
 )
-
-# Weather data
-# schuyler_data <- readRDS("../data/weather_imputed.RDS")
 
 # seven_dra <- schuyler_data %>%
 #   as_tibble() %>%

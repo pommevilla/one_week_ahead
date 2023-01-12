@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 # ---------------------------
-# Script name: concatenate_weather_files.bash
-# Purpose: Concatenate the individual weather files into a single collected file,
-# filtering the rows for our variables of interest while doing so.
+# Concatenates the individual weather files into a single collected file,
+# filtering the rows for variables of interest while doing so.
 # Author: Paul Villanueva (github.com/pommevilla)
 # ---------------------------
 

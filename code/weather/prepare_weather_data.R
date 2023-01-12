@@ -1,7 +1,6 @@
 #!/usr/bin/env Rscript
 # ---------------------------
-# Script name: prepare_weather_data.R
-# Purpose of script: Prepare weather station data for downstream data analysis by
+# Prepare weather station data for downstream data analysis by
 # filtering the data down to the relevant years, pivoting the table,
 # imputing missing data, then calculating a 5-day average of each variable.
 # Author: Paul Villanueva (github.com/pommevilla)
