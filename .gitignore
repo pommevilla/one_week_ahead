@@ -48,4 +48,5 @@ logs/
 # data files
 data/weather/compressed/US*gz
 
+# Scratch directory for practice
 scratch
