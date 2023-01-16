@@ -7,7 +7,6 @@
 # ---------------------------
 
 library(tidyverse)
-library(glue)
 library(lubridate)
 
 # These are the months and years the study was performed
