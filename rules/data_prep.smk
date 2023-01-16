@@ -3,7 +3,7 @@
 # Author: Paul Villanueva (github.com/pommevilla)
 # ---------------------------
 
-rule combine_all_prepare_data_sets:
+rule combine_and_prepare_data_sets:
     input:
         weather_data = "data/weather/all_stations_prepared.csv",
         dnr_data = "data/dnr_data/dnr_combined.csv",
