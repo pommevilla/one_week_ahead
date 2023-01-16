@@ -9,7 +9,8 @@ rule targets:
         "data/weather/all_stations_prepared.csv",
         ".hab_prediction_env_restored",
         "data/data_prep/combined.csv",
-        ".model_training_complete"
+        ".model_training_complete",
+        "land_use_downloaded.txt"
 
 rule restore_renv:
     input:
@@ -44,5 +45,6 @@ rule generate_snakemake_dag:
 
 include: "rules/weather_data.smk"
 include: "rules/dnr_data.smk"
+include: "rules/land_use_data.smk"
 include: "rules/data_prep.smk"
 include: "rules/model_training.smk"
