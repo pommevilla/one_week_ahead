@@ -30,6 +30,8 @@ rule concatenate_weather_data:
     log:
         err = "logs/concatenate_weather_stations.err",
         out = "logs/concatenate_weather_stations.out"
+    conda:
+        "../environment.yml"
     shell:
         """
         {input.script} 2> {log.err} 1> {log.out}
@@ -45,6 +47,8 @@ rule prepare_weather_data:
     log:
         err = "logs/prepare_weather_stations.err",
         out = "logs/prepare_weather_stations.out"
+    conda:
+        "../environment.yml"
     shell:
         """
         {input.script} 2> {log.err} 1> {log.out}
