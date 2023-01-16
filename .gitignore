@@ -44,6 +44,7 @@ logs/
 
 # Snakemake status outputs
 .hab_prediction_env_restored
+.model_training_complete
 
 # data files
 data/weather/compressed/US*gz
