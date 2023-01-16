@@ -9,12 +9,13 @@ rule targets:
         "data/weather/all_stations_prepared.csv",
         ".hab_prediction_env_restored",
         "data/data_prep/combined.csv",
-        ".model_training_complete",
+        "data/model_training/training_results.csv",
         "land_use_downloaded.txt"
 
 rule restore_renv:
     input:
-        r_script = "code/restore_renv.R"
+        r_script = "code/restore_renv.R",
+        r_depends_file = "DESCRIPTION"
     output:
         touch(".hab_prediction_env_restored")
     log:

@@ -9,9 +9,7 @@ rule model_training:
         renvironment_restored = ".hab_prediction_env_restored",
         script = "code/model_training/train_models.R"
     output:
-        # Figures
-        # Tables
-        touch(".model_training_complete")
+        "data/model_training/training_results.csv"
     log:
         err = "logs/model_training.err",
         out = "logs/model_training.out"

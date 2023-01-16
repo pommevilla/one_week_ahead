@@ -10,9 +10,7 @@ library(tidymodels)
 library(here)
 library(themis)
 library(workflowsets)
-
-theme_set(theme_minimal())
-
+library(glmnet)
 
 # Metrics for model evaluation
 hab_metrics <- metric_set(roc_auc, sens, yardstick::spec, accuracy)
@@ -40,8 +38,8 @@ training_results_df <- create_results_df()
 # Reading in data
 hab_data <- read.csv(here("data", "data_prep", "combined.csv")) %>%
     # Filtering out samples that don't have microcystin information for the following week
-    filter(!is.na(category_d_ahead))
-
+    filter(!is.na(category_d_ahead)) %>%
+    mutate(category_d_ahead = as.factor(category_d_ahead))
 
 
 
@@ -51,9 +49,10 @@ hab_data <- read.csv(here("data", "data_prep", "combined.csv")) %>%
 # This contains all the data processing steps common to every workflow
 base_recipe <- recipe(formula = category_d_ahead ~ ., data = hab_data) %>%
     step_zv(all_predictors()) %>%
-    step_rm(c(week, collected_data, environmental_location, category_d)) %>%
+    step_rm(c(week, collected_date, environmental_location, category_d, Station)) %>%
     step_impute_knn(all_numeric_predictors(), neighbors = 5) %>%
-    step_normalize(all_numeric_predictors())
+    step_normalize(all_numeric_predictors()) %>%
+    step_mutate(mcya_16s = replace_na(mcya_16s, 0))
 
 # Defining under- and oversampling recipes
 downsample_recipe <- base_recipe %>%
@@ -80,8 +79,8 @@ xgboost_spec <- boost_tree(
 
 # Defining the logistic regression model. Note that parameter tuning doesn't work
 # with models from the glm package
-log_reg_spec <- logistic_reg() %>%
-    set_engine("glm")
+log_reg_spec <- logistic_reg(penalty = tune(), mixture = tune()) %>%
+    set_engine("glmnet")
 
 
 ######################### Defining the workflow sets
@@ -95,12 +94,30 @@ hab_models_1 <- workflow_set(
 )
 
 
-# Define tuning grids
+# Define cross-validation splits
+set.seed(489)
+cv_splits <- vfold_cv(hab_data, strata = category_d_ahead)
 
 # Run model training
+hab_models_1 <- hab_models_1 %>%
+    workflow_map(
+        "tune_grid",
+        resamples = cv_splits,
+        grid = 2,
+        metrics = hab_metrics, verbose = TRUE
+    )
 
 # Get metrics
+training_results <- rank_results(hab_models_1) %>%
+    select(wflow_id, .metric, mean, std_err, model) %>%
+    mutate(sampling_strategy = str_split(wflow_id, "_", simplify = TRUE)[, 1])
 
-# Output metrics
+# Save metrics
+write.csv(
+    training_results,
+    here("data/model_training", "training_results.csv"),
+    row.names = FALSE,
+    quote = FALSE
+)
 
 # Save models
