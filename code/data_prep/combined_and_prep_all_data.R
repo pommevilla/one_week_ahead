@@ -1,8 +1,7 @@
 #!/usr/bin/env Rscript
 # ---------------------------
-# Restores the r environment used in the project.
-# This is necessary because not all packages (such as janitor and tidyverse)
-# are available through Anaconda.
+# Combines the different data sets into one final table for
+# use in model training
 # Author: Paul Villanueva (github.com/pommevilla)
 # ---------------------------
 library(tidyverse)

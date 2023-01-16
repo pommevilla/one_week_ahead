@@ -3,12 +3,12 @@
 # Author: Paul Villanueva (github.com/pommevilla)
 # ---------------------------
 
-rule combine_all_data_sets:
+rule combine_all_prepare_data_sets:
     input:
         weather_data = "data/weather/all_stations_prepared.csv",
         dnr_data = "data/dnr_data/dnr_combined.csv",
         closest_stations = "data/stations_nearest_lakes.txt",
-        script = "code/data_prep/combine_and_prepare_data.R"
+        script = "code/data_prep/combine_and_prepare_all_data.R"
     output:
         "data/data_prep/combined.csv"
     log:
