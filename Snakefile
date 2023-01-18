@@ -10,7 +10,9 @@ rule targets:
         ".hab_prediction_env_restored",
         "data/data_prep/combined.csv",
         "data/model_training/training_results.csv",
-        "land_use_downloaded.txt"
+        "land_use_downloaded.txt",
+        "data/land_use/sample_site_land_use_percentages.csv"
+
 
 rule restore_renv:
     input:

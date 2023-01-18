@@ -8,7 +8,8 @@ rule combine_and_prepare_data_sets:
         weather_data = "data/weather/all_stations_prepared.csv",
         dnr_data = "data/dnr_data/dnr_combined.csv",
         closest_stations = "data/station_info.txt",
-        script = "code/data_prep/combine_and_prepare_all_data.R"
+        land_use_data = "data/land_use/sample_site_land_use_percentages.csv",
+        script = "code/data_prep/combine_and_prepare_all_data.R",
     output:
         "data/data_prep/combined.csv"
     log:
