@@ -49,6 +49,7 @@ logs/
 # data files
 data/weather/compressed/US*gz
 data/shapefiles/Iowa_County_Boundaries
+data/land_use/MRLC_Iowa_2019
 
 # Scratch directory for practice
 scratch
