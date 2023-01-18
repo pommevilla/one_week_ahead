@@ -96,7 +96,7 @@ hab_models_1 <- workflow_set(
 
 # Define cross-validation splits
 set.seed(489)
-cv_splits <- vfold_cv(hab_data, strata = category_d_ahead)
+cv_splits <- vfold_cv(hab_data, strata = category_d_ahead, v = 7)
 
 # Run model training
 hab_models_1 <- hab_models_1 %>%
