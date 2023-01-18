@@ -19,10 +19,10 @@ conda activate hab_prediction
 You can then run the pipeline with:
 
 ```
-snakemake -c 1
+snakemake -c 4
 ```
 
-_(You can also do `snakemake -c 2` or however many cores you'd like to use.)_
+_(You can also do `snakemake -c 1` to use fewer cores.)_
 
 This will restore the R environment, regenerate all the figures, and render the website.
 
