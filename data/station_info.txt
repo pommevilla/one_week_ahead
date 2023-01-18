@@ -1,39 +1,39 @@
-Site	Station
-Backbone Beach	USC00138009
-Beed's Lake Beach	USC00133584
-Big Creek Beach	US1IAPK0021
-Black Hawk Beach	USC00137312
-Brushy Creek Beach	USC00138808
-Clear Lake Beach	USW00014940
-Crandall's Beach	USC00137859
-Denison Beach	USC00137312
-Emerson Bay Beach	USC00135493
-George Wyth Beach	USW00094910
-Green Valley Beach	US1IAUN0001
-Gull Point Beach	USC00135493
-Honey Creek Resort Beach	USC00136910
-Lacey-Keosauqua Beach	USC00134389
-Lake Ahquabi Beach	US1IAWR0007
-Lake Anita Beach	US1IACS0002
-Lake Darling Beach	USC00138688
-Lake Keomah Beach	USC00136327
-Lake Macbride Beach	US1IAJH0001
-Lake Manawa Beach	US1IAPT0013
-Lake of Three Fires Beach	USC00130576
-Lake Wapello Beach	US1IADV0002
-Lewis and Clark (Blue Lake) Beach	US1IAMN0002
-Lower Pine Lake Beach	US1IAHD0005
-Marble Beach	USC00135493
-McIntosh Woods Beach	USW00014940
-Nine Eagles Beach	USW00094991
-North Twin Lake East Beach	USC00137161
-North Twin Lake West Beach	USC00137161
-Pleasant Creek	US1IALN0024
-Pike's Point Beach	USC00135493
-Prairie Rose Beach	US1IASH0003
-Red Haw Beach	USC00131394
-Rock Creek Beach	USC00133473
-Springbrook Beach	USC00133509
-Triboji Beach	USC00135493
-Union Grove Beach	USC00133120
-Viking Lake Beach	USC00136940
+Site	Station	site_latitude	site_longitude
+Backbone Beach	USC00138009	42.6015	-91.5359
+Beed's Lake Beach	USC00133584	42.77043	-93.23654
+Big Creek Beach	US1IAPK0021	41.79395	-93.73185
+Black Hawk Beach	USC00137312	42.29637	-95.02906
+Brushy Creek Beach	USC00138808	42.38858	-93.97857
+Clear Lake Beach	USW00014940	43.12524	-93.41469
+Crandall's Beach	USC00137859	43.49146	-95.11791
+Denison Beach	USC00137312	42.30139	-95.03608
+Emerson Bay Beach	USC00135493	43.35753	-95.17431
+George Wyth Beach	USW00094910	42.53497	-92.40055
+Green Valley Beach	US1IAUN0001	41.09832	-94.38405
+Gull Point Beach	USC00135493	43.37025	-95.15886
+Honey Creek Resort Beach	USC00136910	40.86757	-92.92772
+Lacey-Keosauqua Beach	USC00134389	40.7111	-91.96997
+Lake Ahquabi Beach	US1IAWR0007	41.29261	-93.59564
+Lake Anita Beach	US1IACS0002	41.42801	-94.78194
+Lake Darling Beach	USC00138688	41.2015	-91.90524
+Lake Keomah Beach	USC00136327	41.29514	-92.53733
+Lake Macbride Beach	US1IAJH0001	41.7935	-91.57311
+Lake Manawa Beach	US1IAPT0013	41.20518	-95.85738
+Lake of Three Fires Beach	USC00130576	40.70991	-94.68961
+Lake Wapello Beach	US1IADV0002	40.81961	-92.57458
+Lewis and Clark (Blue Lake) Beach	US1IAMN0002	42.04416	-96.15928
+Lower Pine Lake Beach	US1IAHD0005	42.36935	-93.06973
+Marble Beach	USC00135493	43.47049028	-95.12500974
+McIntosh Woods Beach	USW00014940	43.12413	-93.46247
+Nine Eagles Beach	USW00094991	40.59674	-93.7723
+North Twin Lake East Beach	USC00137161	42.47574	-94.63882
+North Twin Lake West Beach	USC00137161	42.47574	-94.63882
+Pleasant Creek	US1IALN0024	42.21556	-90.38207
+Pike's Point Beach	USC00135493	43.41623	-95.16643
+Prairie Rose Beach	US1IASH0003	41.60113	-95.22643
+Red Haw Beach	USC00131394	41.00091	-93.272
+Rock Creek Beach	USC00133473	41.73963	-92.85499
+Springbrook Beach	USC00133509	41.77603	-94.4667
+Triboji Beach	USC00135493	43.37351	-95.14804
+Union Grove Beach	USC00133120	42.12505	-92.72008
+Viking Lake Beach	USC00136940	40.976	-95.02935

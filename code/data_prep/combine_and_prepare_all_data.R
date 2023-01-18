@@ -8,7 +8,7 @@ library(tidyverse)
 library(here)
 
 dnr_data <- read.csv("data/dnr_data/dnr_combined.csv")
-closest_stations <- read.delim("data/stations_nearest_lakes.txt")
+closest_stations <- read.delim("data/station_info.txt")
 weather_data <- read.csv("data/weather/all_stations_prepared.csv")
 
 combined <- left_join(

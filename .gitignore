@@ -48,6 +48,10 @@ logs/
 
 # data files
 data/weather/compressed/US*gz
+data/shapefiles/Iowa_County_Boundaries
 
 # Scratch directory for practice
 scratch
+
+
+
