@@ -17,6 +17,7 @@ dependencies:
   - r-glmnet>=v4.1
   - r-rgdal>=v1.5_32
   - r-exactextractr>=v0.9.1
+  - r-gt>=v0.8.0
   - wget=1.20.3
   - snakemake=7.18.2
   - graphviz=6.0.1
