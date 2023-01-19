@@ -47,10 +47,11 @@ logs/
 .hab_prediction_env_restored
 .model_training_complete
 
-# data files
+# large data files
 data/weather/compressed/US*gz
 data/shapefiles/Iowa_County_Boundaries
 data/land_use/MRLC_Iowa_2019
+data/weather/all_stations.csv
 
 # Scratch directory for practice
 scratch
