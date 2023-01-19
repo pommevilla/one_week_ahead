@@ -121,7 +121,3 @@ write.csv(
     row.names = FALSE,
     quote = FALSE
 )
-
-test <- rank_results(hab_models_1, select_best = TRUE, rank_metric = "roc_auc")
-all_results %>%
-    select(.config)

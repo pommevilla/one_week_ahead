@@ -1,0 +1,17 @@
+rank,wflow_id,.metric,mean,std_err,model,sampling_strategy
+1,oversampled_xgboost,accuracy,0.942283264016507,0.00676194210898098,boost_tree,oversampled
+1,oversampled_xgboost,roc_auc,0.932009485383921,0.0240587717225405,boost_tree,oversampled
+1,oversampled_xgboost,sens,0.956498027869592,0.0061539562144359,boost_tree,oversampled
+1,oversampled_xgboost,spec,0.689393939393939,0.0771693845359633,boost_tree,oversampled
+2,oversampled_log_reg,accuracy,0.927359190121546,0.00564095746097111,logistic_reg,oversampled
+2,oversampled_log_reg,roc_auc,0.913765871203057,0.0239394096267923,logistic_reg,oversampled
+2,oversampled_log_reg,sens,0.935770608837413,0.00356888852807811,logistic_reg,oversampled
+2,oversampled_log_reg,spec,0.775974025974026,0.0490368431134597,logistic_reg,oversampled
+3,downsampled_xgboost,accuracy,0.865557597446562,0.00902267646811222,boost_tree,downsampled
+3,downsampled_xgboost,roc_auc,0.911087191589493,0.0270697129840704,boost_tree,downsampled
+3,downsampled_xgboost,sens,0.870341417212538,0.00995762733432872,boost_tree,downsampled
+3,downsampled_xgboost,spec,0.791125541125541,0.0700571256158807,boost_tree,downsampled
+4,downsampled_log_reg,accuracy,0.858774220588709,0.00706405998313068,logistic_reg,downsampled
+4,downsampled_log_reg,roc_auc,0.884839551373059,0.027692617158734,logistic_reg,downsampled
+4,downsampled_log_reg,sens,0.863085423296774,0.00948255565935616,logistic_reg,downsampled
+4,downsampled_log_reg,spec,0.779220779220779,0.0591322553814224,logistic_reg,downsampled
