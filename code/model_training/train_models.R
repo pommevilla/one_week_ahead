@@ -15,24 +15,6 @@ library(glmnet)
 # Metrics for model evaluation
 hab_metrics <- metric_set(roc_auc, sens, yardstick::spec, accuracy)
 
-
-create_results_df <- function(num_rows = 0, num_cols = 4) {
-    results_df <- data.frame(
-        matrix(nrow = 0, ncol = 4)
-    )
-
-    colnames(results_df) <- c(".metric", ".estimator", ".estimate", ".config")
-
-    return(results_df)
-}
-
-# These results df are to record the results and model configurations from the
-# training process.
-testing_results_df <- create_results_df()
-training_results_df <- create_results_df()
-
-
-
 ######################### Preparing data
 
 # Reading in data
@@ -49,7 +31,10 @@ hab_data <- read.csv(here("data", "data_prep", "combined.csv")) %>%
 # This contains all the data processing steps common to every workflow
 base_recipe <- recipe(formula = category_d_ahead ~ ., data = hab_data) %>%
     step_zv(all_predictors()) %>%
-    step_rm(c(week, collected_date, environmental_location, category_d, Station)) %>%
+    step_rm(c(
+        week, collected_date, environmental_location, category_d, Station,
+        site_latitude, site_longitude, Station
+    )) %>%
     step_impute_knn(all_numeric_predictors(), neighbors = 5) %>%
     step_normalize(all_numeric_predictors()) %>%
     step_mutate(mcya_16s = replace_na(mcya_16s, 0))
@@ -94,30 +79,49 @@ hab_models_1 <- workflow_set(
 )
 
 
-# Define cross-validation splits
+# Define cross-validation splits. We use 7 folds here because the number of
+# hazardous samples is 70 and this leads to nicer training/testing splits.
 set.seed(489)
 cv_splits <- vfold_cv(hab_data, strata = category_d_ahead, v = 7)
 
-# Run model training
+# Model training. This will perform vfold cross-validation for each model configuration (defined)
+# by the variables above set to tune and grid = 10) and sampling strategy.
 hab_models_1 <- hab_models_1 %>%
     workflow_map(
         "tune_grid",
         resamples = cv_splits,
-        grid = 2,
+        grid = 10,
         metrics = hab_metrics, verbose = TRUE
     )
 
-# Get metrics
-training_results <- rank_results(hab_models_1) %>%
-    select(wflow_id, .metric, mean, std_err, model) %>%
+all_results <- rank_results(hab_models_1, rank_metric = "roc_auc") %>%
+    select(rank, wflow_id, .metric, mean, std_err, model) %>%
     mutate(sampling_strategy = str_split(wflow_id, "_", simplify = TRUE)[, 1])
 
-# Save metrics
+# Write out best model performance to a csv
 write.csv(
-    training_results,
-    here("data/model_training", "training_results.csv"),
+    all_results,
+    here("data/model_training", "training_results_all.csv"),
     row.names = FALSE,
     quote = FALSE
 )
 
-# Save models
+
+# Get metrics. select_best is set to TRUE so that the model configuration
+# for each set of sampling strategy and model that achieves the highest roc_auc
+# is selected.
+best_results <- rank_results(hab_models_1, select_best = TRUE, rank_metric = "roc_auc") %>%
+    select(rank, wflow_id, .metric, mean, std_err, model) %>%
+    mutate(sampling_strategy = str_split(wflow_id, "_", simplify = TRUE)[, 1])
+
+# Write out best model performance to a csv
+write.csv(
+    best_results,
+    here("data/model_training", "training_results_best.csv"),
+    row.names = FALSE,
+    quote = FALSE
+)
+
+test <- rank_results(hab_models_1, select_best = TRUE, rank_metric = "roc_auc")
+all_results %>%
+    select(.config)

@@ -9,7 +9,7 @@ rule targets:
         "data/weather/all_stations_prepared.csv",
         ".hab_prediction_env_restored",
         "data/data_prep/combined.csv",
-        "data/model_training/training_results.csv",
+        expand("data/model_training/training_results_{result_type}.csv", result_type=RESULT_TYPES),
         "land_use_downloaded.txt",
         "data/land_use/sample_site_land_use_percentages.csv"
 
