@@ -11,8 +11,8 @@ rule targets:
         "data/data_prep/combined.csv",
         expand("data/model_training/training_results_{result_type}.csv", result_type=RESULT_TYPES),
         "land_use_downloaded.txt",
-        "data/land_use/sample_site_land_use_percentages.csv"
-
+        "data/land_use/sample_site_land_use_percentages.csv",
+        expand("figures/training_metrics_{result_type}.png", result_type=RESULT_TYPES)
 
 rule restore_renv:
     input:
@@ -44,10 +44,9 @@ rule generate_snakemake_dag:
         {input.script} 2> {log}
         """
 
-
-
 include: "rules/weather_data.smk"
 include: "rules/dnr_data.smk"
 include: "rules/land_use_data.smk"
 include: "rules/data_prep.smk"
 include: "rules/model_training.smk"
+include: "rules/results_and_figures.smk"
