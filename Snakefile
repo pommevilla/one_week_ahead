@@ -12,7 +12,8 @@ rule targets:
         expand("data/model_training/training_results_{result_type}.csv", result_type=RESULT_TYPES),
         "land_use_downloaded.txt",
         "data/land_use/sample_site_land_use_percentages.csv",
-        expand("figures/training_metrics_{result_type}.png", result_type=RESULT_TYPES)
+        expand("figures/training_metrics_{result_type}.png", result_type=RESULT_TYPES),
+        "results/summary_statistics_one_week_ahead.csv"
 
 rule restore_renv:
     input:

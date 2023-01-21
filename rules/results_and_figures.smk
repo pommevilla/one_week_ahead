@@ -36,3 +36,20 @@ rule generate_model_metrics_figures:
         """
         {input.script} 2> {log.err} 1> {log.out}
         """
+
+rule generate_summary_statistics:
+    input:
+        renvironment_restored = ".hab_prediction_env_restored",
+        combined_data = "data/data_prep/combined.csv",
+        script = "code/results_and_figures/generate_summary_statistics.R"
+    output:
+        "results/summary_statistics_one_week_ahead.csv"
+    log:
+        err = "logs/generate_summary_statistics.err",
+        out = "logs/generate_summary_statistics.out"
+    conda:
+        "../environment.yml"
+    shell:
+        """
+        {input.script} 2> {log.err} 1> {log.out}
+        """
