@@ -32,8 +32,7 @@ hab_data <- read.csv(here("data", "data_prep", "combined.csv")) %>%
 base_recipe <- recipe(formula = category_d_ahead ~ ., data = hab_data) %>%
     step_zv(all_predictors()) %>%
     step_rm(c(
-        week, collected_date, environmental_location, category_d, Station,
-        site_latitude, site_longitude, Station
+        week, collected_date, environmental_location, category_d,
     )) %>%
     step_impute_knn(all_numeric_predictors(), neighbors = 5) %>%
     step_normalize(all_numeric_predictors()) %>%
