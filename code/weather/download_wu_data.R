@@ -83,7 +83,7 @@ create_wu_urls <- function(station, date) {
                     date[j],
                     "/",
                     date[j],
-                    "/daily"
+                    "/weekly"
                 )
             )
         }
