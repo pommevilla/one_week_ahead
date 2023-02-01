@@ -24,7 +24,8 @@ all_weather_imputed <- all_weather_data %>%
         avg_temp:precip,
         ~ ifelse(is.na(.), mean(., na.rm = TRUE), .)
     )) %>%
-    ungroup()
+    ungroup() %>%
+    select(-`month(Date)`)
 
 write.csv(
     all_weather_imputed,

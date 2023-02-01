@@ -9,16 +9,17 @@ library(here)
 
 dnr_data <- read.csv("data/dnr_data/dnr_combined.csv")
 closest_stations <- read.delim("data/station_info.txt")
-weather_data <- read.csv("data/weather/all_stations_prepared.csv")
+weather_data <- read.csv("data/weather/all_stations_weather_imputed.csv")
 
 combined <- left_join(
-    dnr_data, closest_stations,
-    by = c("environmental_location" = "Site")
-) %>%
-    left_join(
-        weather_data,
-        by = c("Station" = "STATION", "collected_date" = "DATE")
+    dnr_data,
+    weather_data,
+    by = c(
+        "environmental_location" = "Location",
+        "collected_date" = "Date"
     )
+) %>%
+    select(-c(Station))
 
 write.csv(
     combined,
