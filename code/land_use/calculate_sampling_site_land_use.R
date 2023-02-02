@@ -18,10 +18,6 @@ iowa_crs <- 26976
 # This is the County boundaries of Iowa
 iowa_sf <- read_sf("data/shapefiles/Iowa_County_Boundaries/")
 
-iowa_sf %>%
-    ggplot() +
-    geom_sf()
-
 # This is the raster containg land use classifications according to the 2019 report from
 # the Multi-Resolution Landuse Consortium (https://www.mrlc.gov/data/nlcd-2019-land-cover-conus)
 iowa_land_use <- raster(here(
@@ -60,10 +56,15 @@ names(land_use_props) <- land_use_categories$category[match(names(land_use_props
 
 # We can use the Site names from sample_site_buffers since the rows are in the same order
 # as the rows of land_use_props
+# We also combine similar classifications into broader categories; ie, land classified as
+# some degree of developed, forest, or wetlands
 land_use_props <- land_use_props %>%
     janitor::clean_names() %>%
     mutate(sample_site = sample_site_buffers$Site) %>%
-    select(sample_site, everything())
+    select(sample_site, everything()) %>%
+    mutate(wetlands_sum = rowSums(across(contains("wetlands"))), .keep = "unused") %>%
+    mutate(developed_sum = rowSums(across(contains("developed"))), .keep = "unused") %>%
+    mutate(forest_sum = rowSums(across(contains("forest"))), .keep = "unused")
 
 write.csv(
     land_use_props,
