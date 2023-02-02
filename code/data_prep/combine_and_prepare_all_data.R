@@ -8,8 +8,8 @@ library(tidyverse)
 library(here)
 
 dnr_data <- read.csv("data/dnr_data/dnr_combined.csv")
-closest_stations <- read.delim("data/station_info.txt")
 weather_data <- read.csv("data/weather/all_stations_weather_imputed.csv")
+land_use_data <- read.csv("data/land_use/sample_site_land_use_percentages.csv")
 
 combined <- left_join(
     dnr_data,
@@ -19,7 +19,12 @@ combined <- left_join(
         "collected_date" = "Date"
     )
 ) %>%
+    left_join(
+        land_use_data,
+        by = c("environmental_location" = "sample_site")
+    ) %>%
     select(-c(Station))
+
 
 write.csv(
     combined,
