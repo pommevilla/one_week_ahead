@@ -108,20 +108,6 @@ common_columns <- intersect(
   )
 )
 
-# seven_dra <- schuyler_data %>%
-#   as_tibble() %>%
-#   select(Location:Date, contains("avg"), precip) %>%
-#   mutate(across(contains("avg"), ~ rollmean(., 7, fill = NA, align = "left"))) %>%
-#   mutate(Location = case_when(
-#     str_detect(Location, "Beed") ~ "Beed's Lake Beach",
-#     str_detect(Location, "Crandall") ~ "Crandall's Beach",
-#     str_detect(Location, "Pleasant Creek Lake Beach") ~ "Pleasant Creek",
-#     # str_detect(Location, "Union Grove") ~ "Union Grove Beach",
-#     str_detect(Location, "Pike") ~ "Pike's Point Beach",
-#     TRUE ~ Location
-#   ))
-
-
 dnr_all <- bind_rows(dnr_2018, dnr_2019, dnr_2020, dnr_2021) %>%
   dplyr::select(all_of(common_columns), ortho_p_mg_p_l) %>%
   mutate(

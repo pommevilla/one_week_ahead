@@ -18,7 +18,7 @@ hab_metrics <- metric_set(roc_auc, sens, yardstick::spec, accuracy)
 ######################### Preparing data
 
 # Reading in data
-hab_data <- read.csv(here("data", "data_prep", "combined.csv")) %>%
+hab_data <- read.csv(here("data", "data_prep", "combined_normalized.csv")) %>%
     # Filtering out samples that don't have microcystin information for the following week
     filter(!is.na(category_d_ahead)) %>%
     mutate(category_d_ahead = as.factor(category_d_ahead))
@@ -89,7 +89,7 @@ hab_models_1 <- hab_models_1 %>%
     workflow_map(
         "tune_grid",
         resamples = cv_splits,
-        grid = 10,
+        grid = 2,
         metrics = hab_metrics, verbose = TRUE
     )
 
