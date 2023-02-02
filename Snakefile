@@ -2,13 +2,11 @@ include: "rules/common.smk"
 
 rule targets:
     input:
-        ".hab_prediction_env_restored",
         "figures/snakemake_dag.png",
         "data/dnr_data/dnr_combined.csv",
         "data/weather/all_stations_weather_imputed.csv",
         "data/data_prep/combined.csv",
         expand("data/model_training/training_results_{result_type}.csv", result_type=RESULT_TYPES),
-        "land_use_downloaded.txt",
         "data/land_use/sample_site_land_use_percentages.csv",
         expand("figures/training_metrics_{result_type}.png", result_type=RESULT_TYPES),
         "results/summary_statistics_one_week_ahead.csv"

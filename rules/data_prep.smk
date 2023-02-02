@@ -1,17 +1,19 @@
 # ---------------------------
-# Snakemake rules for preparing the combined dataset
+# Snakemake rules combining the various datasets
+# and preparing them for model training
 # Author: Paul Villanueva (github.com/pommevilla)
 # ---------------------------
 
 rule combine_and_prepare_data_sets:
     input:
         weather_data = "data/weather/all_stations_weather_imputed.csv",
-        dnr_data = "data/dnr_data/dnr_combined.csv",
+        dnr_data = "data/dnr_data/dnr_prepared.csv",
         closest_stations = "data/station_info.txt",
         land_use_data = "data/land_use/sample_site_land_use_percentages.csv",
         script = "code/data_prep/combine_and_prepare_all_data.R",
     output:
-        "data/data_prep/combined.csv"
+        "data/data_prep/combined.csv",
+        "data/data_prep/combined_normalized.csv"
     log:
         err = "logs/combine_all_data_sets.err",
         out = "logs/combine_all_data_sets.out"

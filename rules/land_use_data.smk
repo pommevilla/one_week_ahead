@@ -21,7 +21,6 @@ rule calculate_land_use_percentages:
     input:
         renvironment_restored = ".hab_prediction_env_restored",
         land_use_downloaded = "land_use_downloaded.txt",
-        # mrlc_layer = "data/land_use/",
         script = "code/land_use/calculate_sampling_site_land_use.R"
     output:
         "data/land_use/sample_site_land_use_percentages.csv"
