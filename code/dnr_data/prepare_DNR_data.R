@@ -41,7 +41,8 @@ dnr_imputed <- dnr_data %>%
         c(doc_ppm:mcya_16s, ortho_p_mg_p_l),
         ~ ifelse(is.na(.), mean(., na.rm = TRUE), .)
     )) %>%
-    ungroup()
+    ungroup() %>%
+    select(-`month(collected_date)`)
 
 write.csv(
     dnr_imputed,

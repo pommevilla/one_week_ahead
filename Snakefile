@@ -6,6 +6,8 @@ rule targets:
         "data/dnr_data/dnr_combined.csv",
         "data/weather/all_stations_weather_imputed.csv",
         "data/data_prep/combined.csv",
+        "data/data_prep/combined_normalized.csv",
+        "data/model_training/feature_importances.csv",
         expand("data/model_training/training_results_{result_type}.csv", result_type=RESULT_TYPES),
         "data/land_use/sample_site_land_use_percentages.csv",
         expand("figures/training_metrics_{result_type}.png", result_type=RESULT_TYPES),

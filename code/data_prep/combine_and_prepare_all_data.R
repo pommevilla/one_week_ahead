@@ -33,9 +33,10 @@ write.csv(
 )
 
 # Normalizing data for model training
+# mcy_a_a is removed because it mostly contains 0, which leads to NAs after normalization
 combined_normalized <- combined %>%
     mutate(across(
-        -c(week, collected_date, environmental_location, category_d, category_d_ahead),
+        -c(week, collected_date, environmental_location, category_d, category_d_ahead, mcy_a_a),
         ~ (scale(.) %>% as.vector())
     ))
 
