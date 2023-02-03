@@ -53,3 +53,22 @@ rule generate_summary_statistics:
         """
         {input.script} 2> {log.err} 1> {log.out}
         """
+
+rule generate_feature_importance_plots:
+    input:
+        feature_importances = "data/model_training/feature_importances.csv",
+        script = "code/results_and_figures/generate_feature_importance_plots.R"
+    output:
+        expand(
+            "figures/feature_importance/{feature_type}_importances.png", 
+            feature_type=FEATURE_TYPES
+        )
+    log:
+        err = "logs/generate_feature_importance_plots.err",
+        out = "logs/generate_feature_importance_plots.out"
+    conda:
+        "../environment.yml"
+    shell:
+        """
+        {input.script} 2> {log.err} 1> {log.out}
+        """

@@ -16,3 +16,5 @@ UNIQUE_STATIONS = [
 COMPRESSED_STATIONS_FILES = expand("data/weather/compressed/{station}.csv.gz", station=UNIQUE_STATIONS)
 
 RESULT_TYPES = ["all", "best"]
+
+FEATURE_TYPES = ["all", "ani", "lasso", "xgb"]

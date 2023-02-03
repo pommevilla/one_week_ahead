@@ -8,10 +8,20 @@ rule targets:
         "data/data_prep/combined.csv",
         "data/data_prep/combined_normalized.csv",
         "data/model_training/feature_importances.csv",
-        expand("data/model_training/training_results_{result_type}.csv", result_type=RESULT_TYPES),
+        expand(
+            "data/model_training/training_results_{result_type}.csv", 
+            result_type=RESULT_TYPES
+        ),
         "data/land_use/sample_site_land_use_percentages.csv",
-        expand("figures/training_metrics_{result_type}.png", result_type=RESULT_TYPES),
-        "results/summary_statistics_one_week_ahead.csv"
+        expand(
+            "figures/training_metrics_{result_type}.png", 
+            result_type=RESULT_TYPES
+        ),
+        "results/summary_statistics_one_week_ahead.csv",
+        expand(
+            "figures/feature_importance/{feature_type}_importances.png", 
+            feature_type=FEATURE_TYPES
+        )
 
 rule restore_renv:
     input:

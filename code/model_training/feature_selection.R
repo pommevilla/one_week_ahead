@@ -72,7 +72,38 @@ all_importances <- left_join(
         0,
         xgb_importance
     )) %>%
-    mutate(n_xgb_importance = scale(xgb_importance))
+    mutate(n_xgb_importance = scale(xgb_importance)) %>%
+    mutate(nice_name = case_when(
+        variable == "mcy_a_m" ~ "McyA M",
+        variable == "mcy_a_p" ~ "McyA P",
+        variable == "mcy_a_a" ~ "McyA A",
+        variable == "doc_ppm" ~ "DOC (ppm)",
+        variable == "tkp_mg_p_l" ~ "TKP (mg/l)",
+        variable == "tkn_mg_n_l" ~ "TKN (mg/l)",
+        variable == "cl_mg_cl_l" ~ "CL",
+        variable == "p_h" ~ "pH",
+        variable == "mcya_16s" ~ "McyA M:16s",
+        variable == "ortho_p_mg_p_l" ~ "OrthoP (mg/l)",
+        variable == "avg_temp" ~ "Avg. Weekly Temperature",
+        variable == "avg_humid" ~ "Avg. Humidity",
+        variable == "avg_dew" ~ "Avg. Dew Point Temperature",
+        variable == "avg_wind" ~ "Avg. Wind speed",
+        variable == "avg_gust" ~ "Avg. Gust Speed",
+        variable == "precip" ~ "Avg. Weekly Precipitation",
+        variable == "open_water" ~ "% Open Water",
+        variable == "barren_land" ~ "% Barren Land",
+        variable == "shrub_scrub" ~ "% Shrubber/Scrubland",
+        variable == "herbaceuous" ~ "% Herbaceuous Land",
+        variable == "hay_pasture" ~ "% Hay/Pasture",
+        variable == "cultivated_crops" ~ "% Cultivated Crops",
+        variable == "wetlands_sum" ~ "% Wetlands",
+        variable == "developed_sum" ~ "% Developed",
+        variable == "forest_sum" ~ "% Forested",
+        TRUE ~ "AHHH"
+    )) %>%
+    mutate(
+        a_n_importance = rowMeans(select(., starts_with("n_")))
+    )
 
 # Writing out results
 write.csv(
