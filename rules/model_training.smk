@@ -27,7 +27,8 @@ rule model_training:
         feature_importances = "data/model_training/feature_importances.csv",
         script = "code/model_training/train_models.R"
     output:
-        expand("data/model_training/training_results_{result_type}.csv", result_type=RESULT_TYPES)
+        expand("data/model_training/training_results_{result_type}.csv", result_type=RESULT_TYPES),
+        "data/model_training/testing_results.csv"
     log:
         err = "logs/model_training.err",
         out = "logs/model_training.out"

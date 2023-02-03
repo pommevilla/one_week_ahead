@@ -95,3 +95,71 @@ get_xgboost_importances <- function(boot_splits) {
         mutate(xgb_importance = rowSums(across(-Feature), na.rm = TRUE), .keep = "unused") %>%
         as.data.frame()
 }
+
+
+############ Metric calculations for Naive model
+# Based on: http://rstudio-pubs-static.s3.amazonaws.com/370944_96c386c03ac54ef3bec4535d49e92890.html
+calc_accuracy <- function(confusion_table) {
+    tp <- confusion_table[2, 2]
+    tn <- confusion_table[1, 1]
+    fn <- confusion_table[1, 2]
+    fp <- confusion_table[2, 1]
+    accuracy <- round((tp + tn) / sum(tp, fp, tn, fn), 2)
+    return(accuracy)
+}
+
+# Sensitivity and specificity are reversed here: a HAB observation is the
+# negative event
+calc_specificity <- function(confusion_table) {
+    tp <- confusion_table[2, 2]
+    fn <- confusion_table[1, 2]
+    sensitivity <- round(tp / (tp + fn), 2)
+    return(sensitivity)
+}
+
+calc_sensitivity <- function(confusion_table) {
+    tn <- confusion_table[1, 1]
+    fp <- confusion_table[2, 1]
+    specificity <- round(tn / (tn + fp), 2)
+    return(specificity)
+}
+
+add_naive_results <- function(df, confusion_table, naive_auc) {
+    df %>%
+        add_row(
+            rank = 5,
+            wflow_id = "naive",
+            .metric = "accuracy",
+            mean = calc_accuracy(confusion_table),
+            std_err = 0,
+            model = "naive",
+            sampling_strategy = "naive"
+        ) %>%
+        add_row(
+            rank = 5,
+            wflow_id = "naive",
+            .metric = "roc_auc",
+            mean = naive_auc,
+            std_err = 0,
+            model = "naive",
+            sampling_strategy = "naive"
+        ) %>%
+        add_row(
+            rank = 5,
+            wflow_id = "naive",
+            .metric = "sens",
+            mean = calc_sensitivity(confusion_table),
+            std_err = 0,
+            model = "naive",
+            sampling_strategy = "naive"
+        ) %>%
+        add_row(
+            rank = 5,
+            wflow_id = "naive",
+            .metric = "spec",
+            mean = calc_specificity(confusion_table),
+            std_err = 0,
+            model = "naive",
+            sampling_strategy = "naive"
+        )
+}
