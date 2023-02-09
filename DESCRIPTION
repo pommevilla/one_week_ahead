@@ -3,4 +3,6 @@ Description: One Week Ahead Prediction of HABs in Iowa Lakes
 Depends:
     xgboost,
     forecast,
-    pROC
+    pROC,
+    brulee,
+    finetune
