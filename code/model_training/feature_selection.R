@@ -26,10 +26,10 @@ prepared_data <- combined_data %>%
     filter(if_all(everything(), ~ is.finite(.)))
 
 ####### Bootstrapping the datasets for feature selection
-
+set.seed(1852)
 bootstrapped_samples <- bootstraps(
     prepared_data,
-    times = 50,
+    times = 1000,
     apparent = TRUE,
     strata = "category_d_ahead"
 )

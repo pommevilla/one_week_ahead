@@ -118,7 +118,7 @@ hab_models_1 <- hab_models_1 %>%
     workflow_map(
         "tune_grid",
         resamples = cv_splits,
-        grid = 2,
+        grid = 100,
         metrics = hab_metrics,
         verbose = TRUE,
         seed = 1834,
