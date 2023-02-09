@@ -8,10 +8,12 @@
 library(tidyverse)
 library(tidymodels)
 library(here)
+library(keras)
 library(themis)
 library(workflowsets)
 library(glmnet)
 library(pROC)
+library(finetune)
 
 source("code/model_training/model_training_helpers.R")
 
@@ -79,6 +81,16 @@ xgboost_spec <- boost_tree(
 log_reg_spec <- logistic_reg(penalty = tune(), mixture = tune()) %>%
     set_engine("glmnet")
 
+nn_spec <- mlp(
+    hidden_units = tune(),
+    penalty = tune(),
+    epochs = tune(),
+    learn_rate = tune(),
+    activation = tune()
+) %>%
+    set_mode("classification") %>%
+    set_engine("brulee")
+
 
 ######################### Defining the workflow sets
 
@@ -86,7 +98,7 @@ log_reg_spec <- logistic_reg(penalty = tune(), mixture = tune()) %>%
 # models and preprocessing recipes
 hab_models_1 <- workflow_set(
     preproc = list(downsampled = downsample_recipe, oversampled = oversample_recipe),
-    models = list(xgboost = xgboost_spec, log_reg = log_reg_spec),
+    models = list(xgboost = xgboost_spec, log_reg = log_reg_spec, nn = nn_spec),
     cross = TRUE
 )
 
@@ -95,6 +107,11 @@ hab_models_1 <- workflow_set(
 set.seed(489)
 cv_splits <- vfold_cv(hab_train, strata = category_d_ahead, v = 7)
 
+# Setting up parameters to pass to the workflow_map call just below
+race_controls <- control_race(
+    parallel_over = "everything"
+)
+
 # Model training. This will perform vfold cross-validation for each model configuration (defined)
 # by the variables above set to tune and grid = 10) and sampling strategy.
 hab_models_1 <- hab_models_1 %>%
@@ -102,7 +119,10 @@ hab_models_1 <- hab_models_1 %>%
         "tune_grid",
         resamples = cv_splits,
         grid = 2,
-        metrics = hab_metrics, verbose = TRUE
+        metrics = hab_metrics,
+        verbose = TRUE,
+        seed = 1834,
+        control = race_controls
     )
 
 
