@@ -5,4 +5,5 @@ Depends:
     forecast,
     pROC,
     brulee,
-    finetune
+    finetune,
+    stacks
