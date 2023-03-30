@@ -101,8 +101,11 @@ race_controls <- control_race(
     save_workflow = TRUE
 )
 
-# Model training. This will perform vfold cross-validation for each model configuration (defined)
-# by the variables above set to tune and grid = 10) and sampling strategy.
+# Model training. This will perform vfold cross-validation for each model configuration and
+# sampling strategy defined above. The grid parameter controls how many different
+# hyperparameter combinations will be tested for each model.
+tuning_combinations <- 200
+
 hab_models_1 <- workflow_set(
     preproc = list(downsampled = downsample_recipe, oversampled = oversample_recipe),
     models = list(xgboost = xgboost_spec, log_reg = log_reg_spec, nn = nn_spec),
@@ -111,17 +114,21 @@ hab_models_1 <- workflow_set(
     workflow_map(
         "tune_grid",
         resamples = cv_splits,
-        grid = 100,
+        grid = tuning_combinations,
         metrics = hab_metrics,
         verbose = TRUE,
         seed = 1834,
         control = race_controls
     )
 
+workflow_fit_filename <- paste0("hab_models_1_", tuning_combinations, ".rds")
+
 saveRDS(
     hab_models_1,
-    here("data/model_training", "hab_models_1.rds")
+    here("results/model_training", workflow_fit_filename)
 )
+
+hab_models_1 <- readRDS(here("results/model_training", workflow_fit_filename))
 
 ######## Naive model calculations
 # Our naive model predicts the next week's status to be whatever the
@@ -195,7 +202,6 @@ ensemble_model <- stacks() %>%
     fit_members()
 
 # Generating predictions from the ensemble model, including class probabilities
-
 ensemble_predictions <- hab_test %>%
     bind_cols(predict(ensemble_model, hab_test, type = "prob")) %>%
     mutate(predicted = as.factor(if_else(.pred_1 > 0.5, 1, 3)))
@@ -209,11 +215,11 @@ ensemble_confusion_matrix <- table(
 ensemble_confusion_matrix
 
 yardstick::roc_auc(ensemble_predictions, category_d_ahead, .pred_1)
+accuracy(ensemble_predictions, category_d_ahead, predicted)
 sens(ensemble_predictions, category_d_ahead, predicted)
 spec(ensemble_predictions, category_d_ahead, predicted)
-accuracy(ensemble_predictions, category_d_ahead, predicted)
 f_meas(ensemble_predictions, category_d_ahead, predicted, event_level = "second")
-f_beta(ensemble_predictions, category_d_ahead, predicted, event_level = "second")
+f_meas(ensemble_predictions, category_d_ahead, predicted, event_level = "second", beta = 2)
 
 ################## Testing results
 # We'll only evaluate the testing results of the best model for each configuration.
@@ -273,6 +279,7 @@ testing_results <- testing_results_df %>%
         roc_auc = naive_auc
     )
 
+# Best models by testing performance
 testing_results %>%
     filter(model != "naive") %>%
     pivot_longer(
@@ -283,6 +290,7 @@ testing_results %>%
     group_by(metric) %>%
     slice_max(value, n = 1)
 
+# Wide format testing results
 testing_results %>%
     select(model, sampling_strategy, roc_auc, accuracy, sens, spec) %>%
     arrange(desc(model), desc(sampling_strategy))
@@ -300,7 +308,9 @@ write.csv(
 voting_predictions <- testing_predictions_df %>%
     select(
         category_d_ahead,
-        contains(best_models_by_metric$wflow_id %>% unique()),
+        # contains(best_models_by_metric$wflow_id %>% unique()),
+        contains("downsampled_xgboost"),
+        contains("oversampled_xgboost"),
         contains("oversampled_log_reg")
     ) %>%
     mutate(
@@ -308,40 +318,11 @@ voting_predictions <- testing_predictions_df %>%
         mean_prediction = as.factor(if_else(mean_pred_1 > 0.5, 1, 3))
     )
 
-yardstick::roc_auc(voting_predictions, category_d_ahead, mean_pred_1)
-sens(voting_predictions, category_d_ahead, mean_prediction)
-spec(voting_predictions, category_d_ahead, mean_prediction)
-accuracy(voting_predictions, category_d_ahead, mean_prediction)
-
-
-getmode <- function(v) {
-    uniqv <- unique(v)
-    uniqv[which.max(tabulate(match(v, uniqv)))]
-}
+get_prediction_metrics(voting_predictions, category_d_ahead, mean_pred_1, mean_prediction)
 
 mode_predictions <- voting_predictions %>%
     rowwise() %>%
     mutate(mode = getmode(c_across(contains(".pred_class")))) %>%
     ungroup()
 
-yardstick::roc_auc(mode_predictions, category_d_ahead, mean_pred_1)
-sens(mode_predictions, category_d_ahead, mode)
-spec(mode_predictions, category_d_ahead, mode)
-accuracy(mode_predictions, category_d_ahead, mode)
-
-
-######## Oversampled XGBoost first
-# Let oversampled xgboost predict first. If it's safe, believe it.
-# Otherwise, check the other ones.
-voting_predictions %>%
-    mutate(
-        final_pred = oversampled_xgboost.pred_class
-    ) %>%
-    mutate(
-        final_pred = if_else(
-            final_pred == 1,
-            1,
-            (oversampled_log_reg.pred_3 + oversampled_nn.pred_3) / 2
-        )
-    ) %>%
-    mutate()
+get_prediction_metrics(mode_predictions, category_d_ahead, mean_pred_1, mode)

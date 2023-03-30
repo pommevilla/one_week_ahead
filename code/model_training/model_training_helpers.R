@@ -163,3 +163,25 @@ add_naive_results <- function(df, confusion_table, naive_auc) {
             sampling_strategy = "naive"
         )
 }
+
+## Helper to quickly investigate predictions
+get_prediction_metrics <- function(prediction_df, prediction_target, class_estimate, class_pred) {
+    prediction_target <- enquo(prediction_target)
+    class_estimate <- enquo(class_estimate)
+    class_pred <- enquo(class_pred)
+
+    df <- rbind(
+        roc_auc = yardstick::roc_auc(prediction_df, !!prediction_target, !!class_estimate),
+        acc = accuracy(prediction_df, !!prediction_target, !!class_pred),
+        sens = sens(prediction_df, !!prediction_target, !!class_pred),
+        spec = spec(prediction_df, !!prediction_target, !!class_pred)
+    )
+
+    return(df)
+}
+
+## Get the mode of a row
+getmode <- function(v) {
+    uniqv <- unique(v)
+    uniqv[which.max(tabulate(match(v, uniqv)))]
+}
