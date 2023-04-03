@@ -74,16 +74,16 @@ all_importances <- left_join(
     )) %>%
     mutate(n_xgb_importance = scale(xgb_importance)) %>%
     mutate(nice_name = case_when(
-        variable == "mcy_a_m" ~ "McyA M",
-        variable == "mcy_a_p" ~ "McyA P",
-        variable == "mcy_a_a" ~ "McyA A",
-        variable == "doc_ppm" ~ "DOC (ppm)",
-        variable == "tkp_mg_p_l" ~ "TKP (mg/l)",
-        variable == "tkn_mg_n_l" ~ "TKN (mg/l)",
+        variable == "mcy_a_m" ~ "mcyA M",
+        variable == "mcy_a_p" ~ "mcyA P",
+        variable == "mcy_a_a" ~ "mcyA A",
+        variable == "doc_ppm" ~ "DOC",
+        variable == "tkp_mg_p_l" ~ "TKP",
+        variable == "tkn_mg_n_l" ~ "TKN",
         variable == "cl_mg_cl_l" ~ "CL",
         variable == "p_h" ~ "pH",
         variable == "mcya_16s" ~ "McyA M:16s",
-        variable == "ortho_p_mg_p_l" ~ "OrthoP (mg/l)",
+        variable == "ortho_p_mg_p_l" ~ "Ortho-P",
         variable == "avg_temp" ~ "Avg. Weekly Temperature",
         variable == "avg_humid" ~ "Avg. Humidity",
         variable == "avg_dew" ~ "Avg. Dew Point Temperature",
@@ -92,14 +92,14 @@ all_importances <- left_join(
         variable == "precip" ~ "Avg. Weekly Precipitation",
         variable == "open_water" ~ "% Open Water",
         variable == "barren_land" ~ "% Barren Land",
-        variable == "shrub_scrub" ~ "% Shrubber/Scrubland",
+        variable == "shrub_scrub" ~ "% Shrubbery/Scrubland",
         variable == "herbaceuous" ~ "% Herbaceuous Land",
         variable == "hay_pasture" ~ "% Hay/Pasture",
         variable == "cultivated_crops" ~ "% Cultivated Crops",
         variable == "wetlands_sum" ~ "% Wetlands",
         variable == "developed_sum" ~ "% Developed",
         variable == "forest_sum" ~ "% Forested",
-        TRUE ~ "AHHH"
+        TRUE ~ NA
     )) %>%
     mutate(
         a_n_importance = rowMeans(select(., starts_with("n_")))
