@@ -12,15 +12,19 @@ library(gtsummary)
 combined_data_set <- read.csv("data/data_prep/combined.csv")
 
 reduced <- combined_data_set %>%
-    filter(!is.na(category_d_ahead)) %>%
     select(
-        microcystin:mcya_16s,
-        category_d_ahead, ortho_p_mg_p_l
-    )
-
-summary_statistics <- reduced %>%
+        -c(week:environmental_location)
+    ) %>%
     mutate(hazard_class = ifelse(category_d_ahead == 1, "Non-hazardous", "Hazardous")) %>%
     select(-category_d_ahead) %>%
+    filter(!is.na(hazard_class))
+# filter(!is.na(category_d_ahead)) %>%
+# select(
+#     microcystin:mcya_16s,
+#     category_d_ahead, ortho_p_mg_p_l
+# )
+
+summary_statistics <- reduced %>%
     tbl_summary(
         by = hazard_class,
         statistic = list(all_continuous() ~ "{mean}")
@@ -36,3 +40,13 @@ write.csv(
     quote = FALSE,
     row.names = FALSE
 )
+
+column_means <- reduced %>%
+    select(-category_d_ahead) %>%
+    group_by(hazard_class) %>%
+    summarize(across(everything(), ~ mean(., na.rm = TRUE))) %>%
+    t() %>%
+    as.data.frame() %>%
+    rownames_to_column(var = "variable")
+
+reduced
