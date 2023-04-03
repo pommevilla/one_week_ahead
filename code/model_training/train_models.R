@@ -105,28 +105,30 @@ race_controls <- control_race(
 # sampling strategy defined above. The grid parameter controls how many different
 # hyperparameter combinations will be tested for each model.
 tuning_combinations <- 200
-
-hab_models_1 <- workflow_set(
-    preproc = list(downsampled = downsample_recipe, oversampled = oversample_recipe),
-    models = list(xgboost = xgboost_spec, log_reg = log_reg_spec, nn = nn_spec),
-    cross = TRUE
-) %>%
-    workflow_map(
-        "tune_grid",
-        resamples = cv_splits,
-        grid = tuning_combinations,
-        metrics = hab_metrics,
-        verbose = TRUE,
-        seed = 1834,
-        control = race_controls
-    )
-
 workflow_fit_filename <- paste0("hab_models_1_", tuning_combinations, ".rds")
 
-saveRDS(
-    hab_models_1,
-    here("results/model_training", workflow_fit_filename)
-)
+if (!file.exists(here("results/model_training", workflow_fit_filename))) {
+    hab_models_1 <- workflow_set(
+        preproc = list(downsampled = downsample_recipe, oversampled = oversample_recipe),
+        models = list(xgboost = xgboost_spec, log_reg = log_reg_spec, nn = nn_spec),
+        cross = TRUE
+    ) %>%
+        workflow_map(
+            "tune_grid",
+            resamples = cv_splits,
+            grid = tuning_combinations,
+            metrics = hab_metrics,
+            verbose = TRUE,
+            seed = 1834,
+            control = race_controls
+        )
+
+
+    saveRDS(
+        hab_models_1,
+        here("results/model_training", workflow_fit_filename)
+    )
+}
 
 hab_models_1 <- readRDS(here("results/model_training", workflow_fit_filename))
 
@@ -214,12 +216,7 @@ ensemble_confusion_matrix <- table(
 
 ensemble_confusion_matrix
 
-yardstick::roc_auc(ensemble_predictions, category_d_ahead, .pred_1)
-accuracy(ensemble_predictions, category_d_ahead, predicted)
-sens(ensemble_predictions, category_d_ahead, predicted)
-spec(ensemble_predictions, category_d_ahead, predicted)
-f_meas(ensemble_predictions, category_d_ahead, predicted, event_level = "second")
-f_meas(ensemble_predictions, category_d_ahead, predicted, event_level = "second", beta = 2)
+get_prediction_metrics(ensemble_predictions, category_d_ahead, .pred_1, predicted)
 
 ################## Testing results
 # We'll only evaluate the testing results of the best model for each configuration.
