@@ -17,12 +17,9 @@ reduced <- combined_data_set %>%
     ) %>%
     mutate(hazard_class = ifelse(category_d_ahead == 1, "Non-hazardous", "Hazardous")) %>%
     select(-category_d_ahead) %>%
-    filter(!is.na(hazard_class))
-# filter(!is.na(category_d_ahead)) %>%
-# select(
-#     microcystin:mcya_16s,
-#     category_d_ahead, ortho_p_mg_p_l
-# )
+    filter(!is.na(hazard_class)) %>%
+    mutate(tp = tkn_mg_n_l + ortho_p_mg_p_l)
+
 
 summary_statistics <- reduced %>%
     tbl_summary(
@@ -40,13 +37,3 @@ write.csv(
     quote = FALSE,
     row.names = FALSE
 )
-
-column_means <- reduced %>%
-    select(-category_d_ahead) %>%
-    group_by(hazard_class) %>%
-    summarize(across(everything(), ~ mean(., na.rm = TRUE))) %>%
-    t() %>%
-    as.data.frame() %>%
-    rownames_to_column(var = "variable")
-
-reduced
