@@ -18,7 +18,7 @@ reduced <- combined_data_set %>%
     mutate(hazard_class = ifelse(category_d_ahead == 1, "Non-hazardous", "Hazardous")) %>%
     select(-category_d_ahead) %>%
     filter(!is.na(hazard_class)) %>%
-    mutate(tp = tkn_mg_n_l + ortho_p_mg_p_l)
+    mutate(tp = tkp_mg_p_l + ortho_p_mg_p_l)
 
 
 summary_statistics <- reduced %>%
