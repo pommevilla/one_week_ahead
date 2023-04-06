@@ -28,7 +28,9 @@ rule model_training:
         script = "code/model_training/train_models.R"
     output:
         expand("data/model_training/training_results_{result_type}.csv", result_type=RESULT_TYPES),
-        "data/model_training/testing_results.csv"
+        "data/model_training/testing_results.csv",
+        "results/model_training/ensemble_model_prio_roc_auc.rds",
+        "results/model_trainign/hab_models_1_200.rds"
     log:
         err = "logs/model_training.err",
         out = "logs/model_training.out"
