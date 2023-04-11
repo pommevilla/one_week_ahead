@@ -5,14 +5,16 @@
 
 ###### Theme for plots
 
+nice_grid_lines <- element_line(
+    color = "gray75",
+    linetype = "dashed",
+    linewidth = 0.5
+)
+
 theme_nice <- theme_light() +
     theme(
         panel.grid = element_blank(),
-        panel.grid.major.x = element_line(
-            color = "gray75",
-            linetype = "dashed",
-            linewidth = 0.5
-        ),
+        panel.grid.major.x = nice_grid_lines,
         plot.title = element_text(size = 10),
         plot.subtitle = element_text(size = 5),
         axis.ticks.length = unit(0.25, "cm"),
