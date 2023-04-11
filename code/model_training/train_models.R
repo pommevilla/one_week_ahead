@@ -249,10 +249,12 @@ testing_predictions_df <- hab_test %>%
 testing_results_df <- data.frame()
 
 for (x in hab_models_1$wflow_id) {
+    # This extract the hyperparameters for the model that achieved the best roc auc
     best_model <- hab_models_1 %>%
         extract_workflow_set_result(x) %>%
         select_best(metric = "roc_auc")
 
+    # Finalizes the model with the hyperparameters obtained above
     final_model_fit <- hab_models_1 %>%
         extract_workflow(x) %>%
         finalize_workflow(best_model) %>%
@@ -261,6 +263,7 @@ for (x in hab_models_1$wflow_id) {
     test_results <- final_model_fit %>%
         collect_metrics()
 
+    # Combine predictions on testing set (with class probabilities) with testing data
     testing_predictions_df <- bind_cols(
         testing_predictions_df,
         final_model_fit %>%
