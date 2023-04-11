@@ -6,4 +6,5 @@ Depends:
     pROC,
     brulee,
     finetune,
-    stacks
+    stacks,
+    ggbreak
