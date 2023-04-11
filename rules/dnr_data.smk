@@ -32,3 +32,19 @@ rule prepare_dnr_data:
         """
         {input.script} 2> {log}
         """
+
+rule generate_histograms:
+    input:
+        script = "code/results_and_figures/generate_histograms.R",
+        dnr_data = "data/dnr_data/dnr_combined.csv"
+    output:
+        "figures/microcystin_histogram.tiff",
+        "figures/microcystin_histogram_threshed.tiff"
+    log:
+        log = "logs/generate_histograms.txt"
+    conda:
+        "../environment.yml"
+    shell:
+        """
+        {input.script} 2> {log}
+        """
