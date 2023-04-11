@@ -68,6 +68,12 @@ importances_figure_plot <- top_row / ani_plot +
 
 ggsave(
     "figures/feature_importance/all_importances.png",
-    # width = 9.63, height = 7.75
-    width = 16, height = 20
+    width = 16, height = 20,
+)
+
+
+ggsave(
+    "figures/feature_importance/all_importances.tiff",
+    width = 16, height = 20,
+    device = "tiff"
 )
