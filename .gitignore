@@ -56,5 +56,5 @@ data/weather/all_stations.csv
 # Scratch directory for practice
 scratch
 
-
-
+# Individual, large tiffs
+figures/feature_importance/all_importances.tiff
