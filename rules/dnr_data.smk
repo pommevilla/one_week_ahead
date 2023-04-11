@@ -10,12 +10,13 @@ rule combine_dnr_data:
     output:
         "data/dnr_data/dnr_combined.csv"
     log:
-        log = "logs/combine_dnr_data.txt"
+        err = "logs/combine_dnr_data.err",
+        out = "logs/combine_dnr_data.out"
     conda:
         "../environment.yml"
     shell:
         """
-        {input.script} 2> {log}
+        {input.script} 2> {log.err} 1> {log.out}
         """
 
 rule prepare_dnr_data:
@@ -25,12 +26,13 @@ rule prepare_dnr_data:
     output:
         "data/dnr_data/dnr_prepared.csv"
     log:
-        log = "logs/prepare_dnr_data.txt"
+        err = "logs/prepare_dnr_data.err",
+        out = "logs/prepare_dnr_data.out"
     conda:
         "../environment.yml"
     shell:
         """
-        {input.script} 2> {log}
+        {input.script} 2> {log.err} 1> {log.out}
         """
 
 rule generate_histograms:
@@ -41,10 +43,11 @@ rule generate_histograms:
         "figures/microcystin_histogram.tiff",
         "figures/microcystin_histogram_threshed.tiff"
     log:
-        log = "logs/generate_histograms.txt"
+        err = "logs/generate_histograms.err",
+        out = "logs/generate_histograms.out"
     conda:
         "../environment.yml"
     shell:
         """
-        {input.script} 2> {log}
+        {input.script} 2> {log.err} 1> {log.out}
         """

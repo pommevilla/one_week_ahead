@@ -45,12 +45,13 @@ rule generate_snakemake_dag:
     output:
         "figures/snakemake_dag.png",
     log:
-        log = "logs/generate_snakemake_dag.txt"
+        err = "logs/generate_snakemake_dag.err",
+        out = "logs/generate_snakemake_dag.out"
     conda:
         "environment.yml"
     shell:
         """
-        {input.script} 2> {log}
+        {input.script} 2> {log.err} 1> {log.out}
         """
 
 include: "rules/weather_data.smk"
