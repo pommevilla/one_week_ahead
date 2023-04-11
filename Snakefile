@@ -1,6 +1,6 @@
 include: "rules/common.smk"
 
-rule targets:
+rule all:
     input:
         "figures/snakemake_dag.png",
         "data/dnr_data/dnr_combined.csv",
@@ -21,7 +21,9 @@ rule targets:
         expand(
             "figures/feature_importance/{feature_type}_importances.png", 
             feature_type=FEATURE_TYPES
-        )
+        ),
+        "figures/microcystin_histogram.tiff",
+        "figures/microcystin_histogram_threshed.tiff"
 
 rule restore_renv:
     input:
