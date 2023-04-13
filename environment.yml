@@ -5,8 +5,8 @@ channels:
   - bioconda
   - R
 dependencies:
-  - r-base>=4.2.2
-  - r-tidyverse>=1.3.2
+  - r-base>=4.2.3
+  - r-tidyverse>=2.0.0
   - r-renv>=v0.16.0
   - r-here>=v0.1
   - r-raster>=v3.5_21
@@ -19,6 +19,7 @@ dependencies:
   - r-exactextractr>=v0.9.1
   - r-gt>=v0.8.0
   - r-gtsummary>=v1.7.0
+  - r-viridis>=0.6.2
   - wget=1.20.3
   - snakemake=7.18.2
   - graphviz=6.0.1

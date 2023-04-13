@@ -23,7 +23,9 @@ rule all:
             feature_type=FEATURE_TYPES
         ),
         "figures/microcystin_histogram.tiff",
-        "figures/microcystin_histogram_threshed.tiff"
+        "figures/microcystin_histogram_threshed.tiff",
+        "figures/historical_hab_occurrences.png",
+        "figures/historical_hab_occurrences.tiff"
 
 rule restore_renv:
     input:

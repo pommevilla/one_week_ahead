@@ -51,3 +51,20 @@ rule generate_histograms:
         """
         {input.script} 2> {log.err} 1> {log.out}
         """
+
+rule generate_historical_hab_plots:
+    input:
+        script = "code/results_and_figures/generate_historical_hab_plots.R",
+        dnr_data = "data/dnr_data/dnr_combined.csv"
+    output:
+        "figures/historical_hab_occurrences.tiff",
+        "figures/historical_hab_occurrences.png"
+    log:
+        err = "logs/generate_historical_hab_plots.err",
+        out = "logs/generate_historical_hab_plots.out"
+    conda:
+        "../environment.yml"
+    shell:
+        """
+        {input.script} 2> {log.err} 1> {log.out}
+        """
