@@ -58,3 +58,4 @@ scratch
 
 # Individual, large tiffs
 figures/feature_importance/all_importances.tiff
+figures/historical_hab_occurrences.tiff
