@@ -351,5 +351,5 @@ mode_predictions <- voting_predictions %>%
     mutate(mode = getmode(c_across(contains(".pred_class")))) %>%
     ungroup()
 
-# THis generates the metrics for the hard predictions
+# This generates the metrics for the hard predictions
 get_prediction_metrics(mode_predictions, category_d_ahead, mean_pred_1, mode)
