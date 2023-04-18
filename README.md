@@ -85,7 +85,19 @@ Performance metrics for the different strategies:
   <img src="figures/readme_ensemble_metrics.png">
 </p>
 
-According to our requirements for a high specificity and high ROC AUC, the hard voting strategy is the clear best candidate for implementation. 
+According to our requirements for a high specificity and high ROC AUC, the hard voting strategy is the best candidate for implementation. 
+
+## Did including climate and land use data really help?
+
+Getting the land use data and the climate data might not always be possible. For example, perhaps land use data is not available for a particular location (or may just be out of date), or climate data is just not available. To see how much their inclusion helps the models, we ran our ensemble model on the important features three more times: without climate data, without land use data, and without either. This implicitly puts more weight on the biologic and chemical data.
+
+After retraining the models from, we got the following results:
+
+<p align="center">
+  <img src="figures/readme_variable_removal_metrics.png">
+</p>
+
+The model trained with all of the variables in the previous step is in the first row, and we see that it achieves the highest ROC AUC and specificity, and is tied for highest accuracy. More specifically, since we are more concerned with specificity here, the margin of improvement by including all the variables shows that the inclusion of the climate and land use data is probably worth the trouble.
 
 ## Repeating the analysis
 
