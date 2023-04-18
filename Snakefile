@@ -18,6 +18,7 @@ rule all:
             result_type=RESULT_TYPES
         ),
         "results/summary_statistics_one_week_ahead.csv",
+        "data/model_training/testing_results.csv",
         expand(
             "figures/feature_importance/{feature_type}_importances.png", 
             feature_type=FEATURE_TYPES
@@ -25,8 +26,12 @@ rule all:
         "figures/microcystin_histogram.tiff",
         "figures/microcystin_histogram_threshed.tiff",
         "figures/historical_hab_occurrences.png",
-        "figures/historical_hab_occurrences.tiff"
+        "figures/historical_hab_occurrences.tiff",
+        "results/model_training/variable_evaluation_metrics.csv",
+        "results/model_training/variable_importance_workflow_fit_200.rds"
 
+# Restores the R environment used in this workflow. Not all packages
+# were available for installation through conda, so we use renv to do so.
 rule restore_renv:
     input:
         r_script = "code/restore_renv.R",
