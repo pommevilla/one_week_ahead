@@ -110,6 +110,7 @@ race_controls <- control_race(
 # Model training. This will perform vfold cross-validation for each model configuration and
 # sampling strategy defined above. The grid parameter controls how many different
 # hyperparameter combinations will be tested for each model.
+# TODO: Convert tuning_combinations to a Snakemake parameter
 tuning_combinations <- 200
 workflow_fit_filename <- paste0("hab_models_1_", tuning_combinations, ".rds")
 
