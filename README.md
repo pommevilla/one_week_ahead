@@ -2,6 +2,20 @@
 
 This repository contains the data and code required to reproduce the results and visualizations from the forthcoming paper "One week ahead prediction of harmful algal blooms in Iowa lakes." Harmful algal blooms occur in freshwater lakes during warmer seasons of the year and cause harm to humans, wildlife, and the surrounding environment. Based on weekly samples collected by the Iowa DNR, we trained several models in order to see how well we could predict harmful algal blooms one week before they occur. The result of this work are models that predit harmful algal blooms a week in advance with a high degree of specificity, and a dashboard that employs these models (in development). 
 
+**The main results were**:
+
+* A subset of features that were predictive of harmful algal blooms. These features, [in order of predictive they were](figures/feature_importance/all_importances.png), are: 
+    * gene copy number of *mcy*A *M*, 
+    * the total Kjeldahl nirogen, 
+    * percentage of land classified as hay or pasture,
+    * pH,
+    * the ratio of *mcy*A *M* to 16s rRNA,
+    * percentage of land classified as developed
+    * total dissolved organic carbon,
+    * average dewpoint temperature, and
+    * the amount of ortho-phosphate
+* An ensemble model based on XGBoost models and a logistic regression that uses hard voting to predict harmful algal blooms a week in advance with 0.956 ROC AUC and 0.857 specificity.
+
 We used the `tidymodels` package and leveraged the `workflowsets` library to train multiple models (XGBoost, elastic net, neural networks, with a naive guessing strategy for baseline comparison) with different sampling strategies over a range of hyperparameter values to achieve this. `snakemake`, `conda`/`mamba`, and `renv` were used to make this pipeline reproducible. 
 
 Some of the major challenges in this prediction problem were deciding which features were important and handling the heavy class imbalance.
