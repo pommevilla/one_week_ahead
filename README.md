@@ -18,6 +18,20 @@ This repository contains the data and code required to reproduce the results and
 
 We used the `tidymodels` package and leveraged the `workflowsets` library to train multiple models (XGBoost, elastic net, neural networks, with a naive guessing strategy for baseline comparison) with different sampling strategies over a range of hyperparameter values to achieve this. `snakemake`, `conda`/`mamba`, and `renv` were used to make this pipeline reproducible. 
 
+## The data
+
+The data used to train the models comes from three different sources:
+
+1. Chemical and qPCR measurements come from the Iowa Department of Natural Resources. These measurements are taken weekly from 39 lakes across Iowa. The data used in this study was collected between Memorial Day and Labor Day between 2018 and 2021 (though the DNR has collected this data for far [longer](figures/historical_hab_occurrences.png)). We consider a sample hazardous if the microcystin concentration in the sample is above the EPA threshold of 8 ug/L. The links to the Excel spreadsheets containing the data for the individual years are:
+    * [2018](data/dnr_data/IowaDNR_2018_Data_Merged.xlsx)
+    * [2019](data/dnr_data/IowaDNR_2019_Data_Merged.xlsx)
+    * [2020](data/dnr_data/IowaDNR_2020_Data_Merged.xlsx)
+    * [2021](data/dnr_data/IowaDNR_2021_Data_Merged.xlsx)
+2. Weather data was scraped from [Weather Underground](https://www.wunderground.com/) using a modified version of the workflow described by fellow lab member [Schuyler Smith](https://github.com/schuyler-smith) in his [previous work](https://schuyler-smith.github.io/IA_Lake_Microcystin/weather.html) on this topic. For each lake location, the closest weather station was scraped for weekly averages for temperature, dewpoint temperature, humidity, windspeed, gust speed, and precipitation. 
+3. Land use data was calculated using the [NLCD 2019 Land Cover (CONUS](https://www.mrlc.gov/data/nlcd-2019-land-cover-conus) from the [Multi-Resolution Land Characteristics Consortium](https://www.mrlc.gov/). Using the coordinates of each sample site (from the DNR data set), we calculated the percentage of each land use category within a 1 km radius of the sample site using the `exactextractr` package.
+
+The data were then combined into one CSV which was then used to perform the rest of the analysis.
+
 Some of the major challenges in this prediction problem were deciding which features were important and handling the heavy class imbalance.
 
 ## Feature selection
