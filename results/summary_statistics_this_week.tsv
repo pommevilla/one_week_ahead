@@ -1,0 +1,14 @@
+**Characteristic**	**Hazardous**, N = 79	**Non-hazardous**, N = 1,512	**p-value**
+microcystin	21.97	0.80	<0.001
+x16s	7,303,611	5,924,701	0.2
+mcy_a_m	1,392,934	62,882	<0.001
+mcy_a_p	7,001	4,032	>0.9
+mcy_a_a	0 (0%)	0 (0%)	NA
+doc_ppm	9.18	6.31	<0.001
+tkp_mg_p_l	0.61	0.49	0.017
+tkn_mg_n_l	2.47	0.86	<0.001
+cl_mg_cl_l	10	15	<0.001
+p_h	9.09	8.47	<0.001
+mcya_16s	0.24	0.02	<0.001
+ortho_p_mg_p_l	0.17	0.04	<0.001
+tp	0.64	0.20	<0.001
