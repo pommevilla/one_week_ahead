@@ -52,7 +52,6 @@ this_week_data <- read.csv("data/dnr_data/dnr_combined.csv") %>%
         "Hazardous", "Non-hazardous"
     ))) %>%
     mutate(tp = tkp_mg_p_l + ortho_p_mg_p_l)
-mutate()
 
 summary_statistics_this_week <- this_week_data %>%
     select(-category_d_ahead) %>%
@@ -72,7 +71,3 @@ write_delim(
     here::here("results", "summary_statistics_this_week.tsv"),
     delim = "\t"
 )
-
-this_week_data %>%
-    mutate(mcya_16s = if_else(!is.finite(mcya_16s), 0, mcya_16s)) %>%
-    filter(x16s == 0 & mcy_a_m == 0)

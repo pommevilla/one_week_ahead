@@ -19,7 +19,7 @@ library(stacks)
 source("code/model_training/model_training_helpers.R")
 
 # Metrics for model evaluation
-hab_metrics <- metric_set(roc_auc, sens, yardstick::spec, accuracy)
+hab_metrics <- metric_set(roc_auc, sens, yardstick::spec, accuracy, ppv, npv)
 
 ######################### Preparing data
 # Reading in data. Samples without microcystin information
@@ -118,7 +118,7 @@ workflow_fit_filename <- paste0("hab_models_1_", tuning_combinations, ".rds")
 # with the same number of tuning combinations. If it hasn't been saved, we'll run the pipeline and save it.
 if (!file.exists(here("results/model_training", workflow_fit_filename))) {
     hab_models_1 <- workflow_set(
-        preproc = list(downsampled = downsample_recipe, oversampled = oversample_recipe),
+        preproc = list(downsampled = downsample_recipe, oversampled = oversample_recipe, base = base_recipe),
         models = list(xgboost = xgboost_spec, log_reg = log_reg_spec, nn = nn_spec),
         cross = TRUE
     ) %>%
@@ -179,6 +179,9 @@ write.csv(
     quote = FALSE
 )
 
+rank_results(hab_models_1, select_best = TRUE, rank_metric = "roc_auc") %>%
+    show_best(n = 5)
+
 # Training metrics again, but only selecting the best performing model from each
 # model and preprocessing type.
 best_results <- rank_results(hab_models_1, select_best = TRUE, rank_metric = "roc_auc") %>%
@@ -186,10 +189,21 @@ best_results <- rank_results(hab_models_1, select_best = TRUE, rank_metric = "ro
     mutate(sampling_strategy = str_split(wflow_id, "_", simplify = TRUE)[, 1]) %>%
     add_naive_results(confusion_table, naive_auc)
 
+rank_results(hab_models_1, select_best = TRUE, rank_metric = "roc_auc") %>%
+    select(rank, wflow_id, .metric, mean, std_err, model) %>%
+    mutate(sampling_strategy = str_split(wflow_id, "_", simplify = TRUE)[, 1]) %>%
+    add_naive_results(confusion_table, naive_auc) %>%
+    filter(.metric == "npv")
+
 best_results %>%
     select(-std_err) %>%
     pivot_wider(values_from = mean, names_from = .metric) %>%
-    view()
+    arrange(desc(npv)) %>%
+    select(wflow_id, model, sampling_strategy, npv, ppv) %>%
+    rename(
+        neg_pv = ppv,
+        pos_pv = npv
+    )
 
 
 # Write out best model performance to a csv
@@ -318,7 +332,12 @@ testing_results %>%
 
 # Wide format testing results
 testing_results %>%
-    select(model, sampling_strategy, roc_auc, accuracy, sens, spec) %>%
+    select(
+        model, sampling_strategy,
+        roc_auc, accuracy,
+        specificity = sens, sensitivity = spec,
+        pos_pv = npv, neg_pv = ppv
+    ) %>%
     arrange(desc(model), desc(sampling_strategy))
 
 # We save the results in long format for easier plotting.
